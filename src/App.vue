@@ -14,15 +14,16 @@
     <div v-else className="user">
       users has more than 1 element
     </div>
-    <div v-for="(el, index) in users" :key="index" className="user">
-      <h3>{{  el.name }}</h3>
-      <p>{{ el.email }} - <b>{{ el.pass }}</b></p>
-    </div>
+    <User v-for="(el, index) in users" :key="index" :user="el" :index="index" :deleteUser="deleteUser"/>
+   
 </template>
 
 
 <script>
+import User from './components/User.vue'
+
 export default {
+  components: { User },
   data(){
     return {
       users: [],
@@ -52,6 +53,9 @@ export default {
           pass: this.userPass,
           email: this.userPass
         })
+      },
+      deleteUser(index){
+        this.users.splice(index, 1);
       }
   }
 }
