@@ -1,34 +1,55 @@
+<template>
+    <input type ="text" v-model="userName" placeholder="Имя">
+    <input type ="password" v-model="userPass" placeholder = "Пароль">
+    <input type ="email" v-model="userEmail" placeholder = "Email">
+    <button @click ="sendData()">Отправить</button>
+    
+
+    <div v-for="(el, index) in users" :key="index">
+    <h3>{{  el.name }}</h3>
+    <p>Some</p>
+    <div>
+</template>
+
+
 <script>
 export default {
   data(){
     return {
-      info: 'Title',
-      someInfo: 'Anons of message'
+      users: [],
+      error: '',
+      userName:'',
+      userName:'',
+      userName:''
     }
   },
   methods: {
-    userData(word= 'New text') {
-     
-      // this.info = 'Some new'
-      this.someInfo = word
-    }
-  },
+      sendData() {
+        if(this.userName == ' ') {
+          this.error = 'ne verno';
+          return;
+        } else if(this.userEmail == ' '){
+          this.error = 'Email ne verno';
+          return;
+        } else if(this.userPass == ' '){
+          this.error = 'Pasee ne verno';
+          return;
+        }
+
+          this.error = '';
+
+        this.users.push({
+          name: this.userName,
+          pass: this.userPass,
+          email: this.userPass
+        })
+      }
+  }
 }
 </script>
 
-<template>
-  <h3>{{ info }}</h3>
-  <p>{{ someInfo }}</p>
 
-  <button type ="button" @click="userData()">Отправить</button>
-</template>
 
 <style scoped>
-h3{
-  font-weight: lighter;
-}
 
-p {
-    color: rgb(222, 66, 66);
-}
 </style>
