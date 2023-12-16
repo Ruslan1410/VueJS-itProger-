@@ -1,9 +1,11 @@
 <template>
 <div class="wrapper">
 <h1>Погодное приложение</h1>
-<p>Узнать погоду в {{ city }}</p>
+<p>Узнать погоду в {{ city == ""? "вашем городе": cityName}}</p>
 <input type="text" v-model="city" placeholder="Введите город">
-<button>Получить погоду</button>
+<button v-if="city !=''" @click="getWeather()">Получить погоду</button>
+<button disabled v-else>Введите название города</button>
+<p class="error">{{ error }}</p>
 </div>
 
 </template>
@@ -13,15 +15,33 @@
 export default {
   data() {
     return {
-      city: ""
+      city: "",
+      error:""
     }
   },
+  computed: {
+    cityName() {
+      return "<" + this.city + ">"
+    }
+  },
+  methods: {
+    getWeather(){
+      if(this.city.trim().length < 2){
+        this.error = "Нужно название более одного символа :)"
+        return false
+      }
+      this.error = ""
+    }
+  }
 }
 </script>
 
 
 
 <style scoped>
+.error {
+  color: #d03939;
+}
 .wrapper {
   width: 900px;
   height: 500px;
@@ -57,6 +77,10 @@ export default {
   border-bottom-color: #6e2d7d;
 }
 
+.wrapper button:disabled {
+  background: #746027;
+  cursor: not-allowed;
+}
 .wrapper button {
   background: #e3bc4b;
   color: #fff;
