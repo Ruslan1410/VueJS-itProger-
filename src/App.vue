@@ -6,23 +6,53 @@
 <button v-if="city !=''" @click="getWeather()">Получить погоду</button>
 <button disabled v-else>Введите название города</button>
 <p class="error">{{ error }}</p>
-</div>
 
+<div v-if="info !=null">
+
+
+
+<p>{{ showTemp }}</p>
+<p>{{ showFeelsLike }}</p>
+<p>{{ showMinTemp }}</p>
+<p>{{ showMaxTemp }}</p>
+  </div>
+</div>
 </template>
 
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
       city: "",
-      error:""
+      error:"",
+      info: null
     }
   },
   computed: {
     cityName() {
       return "<" + this.city + ">"
     }
+  },
+  computed: {
+    cityName() {
+      return "<" + this.city + ">"
+    },
+    showTemp(){
+      return "Температура: " + this.info.temp
+    },
+    showFeelsLike() {
+      return "Ощущается как: " + this.info.main.feels_like
+
+    },
+    showMinTemp() {
+      return "Минимальная температура: " + this.info.main.temp_min
+    },
+    showMaxTemp() {
+      return "Максимальная температура: " + this.info.main.temp_max
+    },
   },
   methods: {
     getWeather(){
@@ -31,6 +61,9 @@ export default {
         return false
       }
       this.error = ""
+
+      axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=metric&appid=a82525e22f4febbca814b887a7272777`)
+      .then(res =>(this.info = res.data))
     }
   }
 }
